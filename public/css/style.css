@@ -1,0 +1,297 @@
+:root{
+  --button-color: rgb(97, 97, 178); 
+}
+
+*{
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto;
+  background-color: antiquewhite;
+  padding-top: 90px;
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 0;
+}
+
+
+p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.auth-section h2 {
+  text-align: center; 
+}
+
+
+
+
+
+/*-----------------------------------*\
+              HOMEPAGE            
+\*-----------------------------------*/
+
+#homepage-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(77, 77, 14);
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+h1 {
+  width: 33%;
+  color: antiquewhite;
+}
+
+#homepage-header p {
+  flex: 1;
+  font-family: Nunito Sans;
+  font-size: 1.5em;
+  color: antiquewhite
+} 
+
+.auth-section input, .auth-section button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width:80%;
+  border-radius: 40px;
+}
+.auth-section input {
+  
+  padding: 1.5rem;
+  font-size: 1rem;;
+}
+
+#login-form input {
+  margin-bottom: 50px;
+}
+
+#register-form input {
+  margin-bottom: 40px;
+}
+
+.auth-section button {
+  padding: 1rem;
+}
+
+.auth-section p {
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+
+
+
+/*----------------------------------------*\
+              TASKS-HEADER & DASHBOARD           
+\*----------------------------------------*/
+
+#tasks-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: rgb(77, 77, 14);
+}
+
+#tasks-header h2 {
+  color: antiquewhite;
+}
+
+#tasks-header button:hover, #dashboard-section button:hover {
+  background: rgba(0, 0, 0, 0.600);
+  color:white;
+  cursor: pointer;
+}
+
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+#task-card {
+  background:  rgb(148, 104, 23);
+  color: white;
+  border-radius: 30px;
+  padding: 1.5rem;
+}
+
+#task-card #task-title {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#task-card #task-header {
+  margin-bottom: 2em;
+}
+
+#task-card #task-title {
+  margin-bottom: 0.5em;
+}
+
+#task-description {
+   margin-bottom: 0.7em;
+}
+
+#task-footer {
+  margin-top: 2em;
+}
+
+#task-card button {
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  border: none;
+}
+ #tasks-header button {
+  padding: 0.3em 0.8em;
+  border-radius: 15px;
+  border: none;
+ }
+
+#task-card p {
+  max-width: 40ch;
+}
+
+#task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  align-items: center;
+}
+
+#task-card span {
+  padding: 0.5em 0.5em;
+  margin-right: 15px;
+  border-radius: 20px;
+  background: white;
+  color:  rgb(105, 72, 12);
+}
+
+
+
+
+/*----------------------------------------*\
+              TASKS-INPUT-AREA           
+\*----------------------------------------*/
+
+#form-container {
+  display: flex;
+  justify-content: center;
+}
+
+#task-input-form  label {
+  margin-bottom: 0.5em;
+  font-size: 1.1rem;
+}
+
+#task-input-form input, #task-input-form select, #task-input-form textarea{
+  border-radius: 10px;
+  padding: 5px;
+}
+
+#task-input-form {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  
+}
+
+#task-input-form button {
+  padding:  0.5em 1em;
+  border-radius: 20px;
+}
+
+#task-input-form button:hover {
+  color: white;
+  background: rgba(0, 0, 0, 0.800);
+}
+
+#task-desc {
+  width: 200px;
+  height: 100px;
+}
+
+#task-input-section h2 {
+  margin-bottom: 40px; 
+  text-align: center;
+}
+
+
+@media (min-width: 640px){
+  .container{
+    max-width: 768px;
+  }
+
+  .auth-section input, .auth-section button {
+    width: 50%;
+  }
+
+  .auth-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .auth-section h2{
+    font-size: 2rem;
+  }
+
+}
+
+@media (min-width: 677px){
+  h1 {
+    width: 25%;
+  }
+
+  #homepage-header p{
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px){
+  .container{
+    max-width: 1024px;
+  }
+
+  #task-input-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  }
+
+  #task-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+  }
+}
+
+@media (min-width: 873px){
+  h1 {
+    width: 20%;
+  }
+}
+
+
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&
+  family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" 
+  integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="tasks-header">
+      <h2>Task Manager</h2>
+      <button id="logout-btn">Logout</button>
+  </header>
+
+  <section class="dashboard-section container" id="dashboard-section">
+    
+    <h2>My Tasks</h2>
+      
+    <div id="task-list">
+
+      <div id="task-card">
+        <div id="task-header">
+          <span id="priority-badge">High Priority</span>
+          <span id="status-badge">Pending</span>
+        </div>
+          
+        <div id="task-body">
+          <h2 id="task-title">Web Project</h2>
+          <p id="task-description">Prepare the project proposal and sumbit it. Colaborate on the project using Git/Github. Present the project. eioei eufheufihe eufieiufehe eufeue eufeue</p>
+          <p id="task-date"><strong>Due:</strong> 2023-11-15</p>
+        </div>
+          
+        <div id="task-footer">
+          <button id="edit-btn">Edit</button>
+          <button id="complete-btn">Complete</button>
+          <button id="delete-btn">Delete</button>
+        </div>
+      </div>
+
+      
+    <footer>
+      <p>Do you want to add a new task?
+        <a id="show-task-input" href="#task-input-section">Add Task</a>
+      </p>
+    </footer>
+
+  </section>
+
+  <section class="task-input-section container" id="task-input-section">
+    
+
+    <h2 id="task-input-header">New Task</h2>
+    <div id="form-container">
+      <form id="task-input-form">
+        <div >
+        <label for="task-title" style="display: block;">Title</label>
+        <input type="text" id="task-title" name="Title" placeholder="e.g. Web Project" required>
+        </div>
+        <div>
+        <label for="task-desc" style="display: block">Description</label>
+        <textarea id="task-desc" name="Description" placeholder="Task Description (details about the task)"></textarea>
+        </div>
+        
+        <div class="date-container">
+          <label for="task-date">Due Date</label>
+          <input type="date" id="task-date" name="Date" required>
+        </div>
+        
+        <div class="priority-container">
+          <label for="task-priority">Priority</label>
+          <select id="task-priority">
+            <option value="Low">Low Priority</option>
+            <option value="Medium">Medium Priority</option>
+            <option value="High">High Priority</option>
+          </select>
+        </div>
+
+        <div >
+        <button type="submit" id="add-task-btn">Add</button>
+        </div>
+      </form> 
+    </div>
+     
+    
+
+    </section>
+
+    <script src="js/tasks.js"></script>
+</body>
+</html>

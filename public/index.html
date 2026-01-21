@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student-Task-Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&
+  family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" 
+  integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="homepage-header">
+    <h1 >Task Manager</h1>
+    <p>Manage your tasks with ease!</p>
+  </div>
+ 
+  <section class="auth-section container" id="auth-section" >
+    <form id="login-form">
+      <h2>Login</h2>
+      <input type="email" id="login-email" name="Email" placeholder="Email" required>
+      <input type="password" id="login-password" name="Password" placeholder="Password" required>
+      <button type="submit" id="login-btn">Sign In</button>
+      <p>Don't have an account? <a href="#register-form" id="show-register">Register</a></p>
+    </form>
+            
+    <form id="register-form">
+      <h2>Register</h2>
+      <input type="text" id="reg-name"  name="Name" placeholder="Full Name" required>
+      <input type="email" id="reg-email"  name="Email" placeholder="Email" required>
+      <input type="password" id="reg-password" name="Password" placeholder="Password" required>
+      <button id="register-btn">Sign Up</button>
+      <p>Already have an account? <a href="#login-form" id="show-login">Login</a></p>
+    </form>
+
+  </section> 
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
