@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const API_URL = 'http://localhost:5000'; 
+const API_URL = 'https://student-task-manager-ejnp.onrender.com/'; 
 
 // 1. AUTHENTICATION CHECK
 // Before doing anything, check if the user has a token.
