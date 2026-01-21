@@ -7,7 +7,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({origin:'https://verdant-faun-043e73.netlify.app/'}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
