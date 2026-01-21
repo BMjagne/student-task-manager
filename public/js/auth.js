@@ -1,5 +1,6 @@
 // --- CONFIGURATION ---
-const API_URL = 'https://student-task-manager-ejnp.onrender.com/'; 
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000' : 'https://student-task-manager-ejnp.onrender.com/';
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. SELECT ELEMENTS
