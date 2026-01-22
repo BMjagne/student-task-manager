@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             taskList.innerHTML = '';
 
             if (tasks.length === 0) {
-                taskList.innerHTML = '<p style="margin-top: 100px; margin-bottom: 100px; font-size: 2rem;">YOU HAVE NO TASKS</p>';
+                taskList.innerHTML = '<p style="margin-top: 100px; margin-bottom: 100px; font-size: 2rem; text-align: center;">YOU HAVE NO TASKS</p>';
                 return;
             }
 

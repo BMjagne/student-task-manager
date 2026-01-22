@@ -85,6 +85,13 @@ h1 {
 
 .auth-section button {
   padding: 1rem;
+  cursor: pointer;
+  border: none;
+}
+
+.auth-section button:hover {
+  background: rgba(0, 0, 0, 0.600);
+  color:white;
 }
 
 .auth-section p {
@@ -131,9 +138,6 @@ h1 {
   gap: 1.5rem;
 }
 
-.dashboard-section h2, .dashboard-section p {
-  text-align: center;
-}
 
 #task-card {
   background:  rgb(148, 104, 23);
@@ -159,7 +163,7 @@ h1 {
    margin-bottom: 0.7em;
 }
 
-#task-footer {
+.card-actions {
   margin-top: 2em;
 }
 
