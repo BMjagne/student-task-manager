@@ -10,7 +10,7 @@ router.use(protect);
 router.get('/', taskController.getAllTasks);
 
 // POST /api/tasks - create task
-router.post('/', taskController.createTask);
+router.post('/',protect,taskController.createTask);
 
 // GET /api/tasks/:id - get one task
 router.get('/:id', taskController.getTask);

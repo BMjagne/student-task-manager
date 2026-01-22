@@ -1,7 +1,6 @@
 // --- CONFIGURATION ---
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000' 
-    : 'https://student-task-manager-ejnp.onrender.com/api/auth';
+    ? 'http://localhost:5000' : 'https://student-task-manager-ejnp.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. SELECT ELEMENTS
@@ -55,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            // Send POST request to /register
-            const response = await fetch(`${API_URL}/register`, {
+            // Send POST request to /api/auth/register
+            const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData)
@@ -93,33 +92,29 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData)
             });
 
-            
-          if (response.ok) {
-            const responseData = await response.json(); 
-    
-            
-            if (responseData.data && responseData.data.token) {
-              localStorage.setItem('token', responseData.data.token);
-              window.location.replace('tasks.html');
-            }       
-            else {
-              console.error("Login succeeded but no token was found in responseData.data.token");
+            if (response.ok) {
+                const responseData = await response.json(); 
+                
+                if (responseData.data && responseData.data.token) {
+                    localStorage.setItem('token', responseData.data.token);
+                    window.location.replace('tasks.html');
+                } else {
+                    console.error("Login succeeded but no token was found in responseData.data.token");
+                    alert('Login successful but no token received');
+                }
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message || 'Invalid email or password');
             }
-} 
-
-          else {
-                alert(data.message || 'Invalid email or password');
-          }
-        } 
-        catch (error) {
-          console.error('Error:', error);
-          alert('Unable to login. Please check server.');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Unable to login. Please check server.');
         }
     });
 });
