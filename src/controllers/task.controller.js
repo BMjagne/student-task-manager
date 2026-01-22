@@ -4,13 +4,11 @@ const Task = require('../models/task.model');
 exports.getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.user._id }).sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      count: tasks.length,
-      data: tasks,
-    });
+    
+    // Return array directly
+    res.status(200).json(tasks);
   } catch (error) {
+    console.error('Error fetching tasks:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching tasks',
@@ -39,11 +37,9 @@ exports.getTask = async (req, res) => {
       });
     }
 
-    res.status(200).json({
-      success: true,
-      data: task,
-    });
+    res.status(200).json(task);
   } catch (error) {
+    console.error('Error fetching task:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching task',
@@ -62,16 +58,13 @@ exports.createTask = async (req, res) => {
       description,
       dueDate,
       priority,
-      status,
+      status: status || 'pending',
       userId: req.user._id,
     });
 
-    res.status(201).json({
-      success: true,
-      message: 'Task created successfully',
-      data: task,
-    });
+    res.status(201).json(task);
   } catch (error) {
+    console.error('Error creating task:', error);
     res.status(500).json({
       success: false,
       message: 'Error creating task',
@@ -106,12 +99,9 @@ exports.updateTask = async (req, res) => {
       { new: true, runValidators: true }
     );
 
-    res.status(200).json({
-      success: true,
-      message: 'Task updated successfully',
-      data: updatedTask,
-    });
+    res.status(200).json(updatedTask);
   } catch (error) {
+    console.error('Error updating task:', error);
     res.status(500).json({
       success: false,
       message: 'Error updating task',
@@ -147,6 +137,7 @@ exports.deleteTask = async (req, res) => {
       message: 'Task deleted successfully',
     });
   } catch (error) {
+    console.error('Error deleting task:', error);
     res.status(500).json({
       success: false,
       message: 'Error deleting task',
@@ -178,12 +169,9 @@ exports.markComplete = async (req, res) => {
     task.status = 'completed';
     await task.save();
 
-    res.status(200).json({
-      success: true,
-      message: 'Task marked as complete',
-      data: task,
-    });
+    res.status(200).json(task);
   } catch (error) {
+    console.error('Error marking task as complete:', error);
     res.status(500).json({
       success: false,
       message: 'Error marking task as complete',

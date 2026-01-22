@@ -1,6 +1,6 @@
 // --- CONFIGURATION ---
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000' 
+    ? 'http://localhost:5000/api/tasks' 
     : 'https://student-task-manager-ejnp.onrender.com/api/tasks'; 
 
 // 1. AUTHENTICATION CHECK
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchTasks() {
         try {
             // We must send the token to the backend to prove who we are
-            const response = await fetch(`${API_URL}/`, {
+            const response = await fetch(`${API_URL}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}` 
@@ -95,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.innerHTML = `
                     <div class="card-header">
                         <span id="priority-badge" class="badge-${task.priority}">${task.priority}</span>
-                        <span id="status-badge" class="${task.status === 'Completed' ? 'status-complete' : ''}">${task.status}</span>
+                        <span id="status-badge" class="${task.status === 'completed' ? 'status-complete' : ''}">${task.status}</span>
                     </div>
                     
-                    <h2 class="task-title" style="text-decoration: ${task.status === 'Completed' ? 'line-through' : 'none'}">${task.title}</h2>
+                    <h2 class="task-title" style="text-decoration: ${task.status === 'completed' ? 'line-through' : 'none'}">${task.title}</h2>
                     <p id="task-description">${task.description}</p>
                     <p id="task-date"><strong>Due:</strong> ${dateString}</p>
 
@@ -145,12 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            let url = `${API_URL}/`;
+            let url = `${API_URL}`;
             let method = 'POST';
 
             // If we are editing, change URL and Method
             if (currentEditTaskId) {
-                url = `${API_URL}/:${currentEditTaskId}`;
+                url = `${API_URL}/${currentEditTaskId}`;
                 method = 'PUT';
             }
 
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!confirm('Are you sure?')) return;
 
         try {
-            await fetch(`${API_URL}/:${id}`, {
+            await fetch(`${API_URL}/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -192,19 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // COMPLETE TASK
     async function completeTask(task, cardElement) {
         try {
-            const response = await fetch(`${API_URL}/:${task._id}/complete`, {
+            const response = await fetch(`${API_URL}/${task._id}/complete`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                },
-               /* body: JSON.stringify({ 
-                    status: 'Completed',
-                    title: task.title, 
-                    description: task.description,
-                    priority: task.priority,
-                    dueDate: task.dueDate
-                })*/
+                }
             });
 
             if(response.ok) {
@@ -213,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const title = cardElement.querySelector('.task-title');
                 
                 statusBadge.textContent = 'Completed';
+                statusBadge.className = 'status-complete';
                 title.style.textDecoration = 'line-through';
             }
 
