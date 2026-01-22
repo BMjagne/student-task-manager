@@ -131,6 +131,10 @@ h1 {
   gap: 1.5rem;
 }
 
+.dashboard-section h2, .dashboard-section p {
+  text-align: center;
+}
+
 #task-card {
   background:  rgb(148, 104, 23);
   color: white;
@@ -138,16 +142,16 @@ h1 {
   padding: 1.5rem;
 }
 
-#task-card #task-title {
+#task-card .task-title {
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
-#task-card #task-header {
+#task-card .card-header {
   margin-bottom: 2em;
 }
 
-#task-card #task-title {
+#task-card .task-title {
   margin-bottom: 0.5em;
 }
 
