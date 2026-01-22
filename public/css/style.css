@@ -139,6 +139,13 @@ h1 {
   gap: 1.5rem;
 }
 
+.dashboard-section h2, .dashboard-section footer p {
+  text-align: center;
+}
+
+.dashboard-section footer {
+  margin-top: 50px;
+}
 
 #task-card {
   background:  rgb(148, 104, 23);
