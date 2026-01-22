@@ -1,52 +1,44 @@
-// --- CONFIGURATION ---
+// API configuration - switches between local and production
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5000/api/tasks' 
     : 'https://student-task-manager-ejnp.onrender.com/api/tasks'; 
 
-// 1. AUTHENTICATION CHECK
-// Before doing anything, check if the user has a token.
+// Check if user is logged in, redirect if not
 const token = localStorage.getItem('token');
 
 if (!token) {
-    // If no token, kick them back to the login page immediately
     window.location.href = 'index.html'; 
 }
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 2. SELECT ELEMENTS ---
-    
-    // Sections
+    // Get all the DOM elements we need
     const dashboardSection = document.getElementById('dashboard-section');
     const taskInputSection = document.getElementById('task-input-section');
     
-    // Dashboard Elements
     const taskList = document.getElementById('task-list');
     const showTaskInputLink = document.getElementById('show-task-input');
     const logoutBtn = document.getElementById('logout-btn');
 
-    // Input Form Elements
     const taskInputForm = document.getElementById('task-input-form');
     const taskInputHeader = document.getElementById('task-input-header');
     
-    // Form Inputs
     const inputTitle = document.getElementById('task-title');
     const inputDesc = document.getElementById('task-desc');
     const inputDate = document.getElementById('task-date');
     const inputPriority = document.getElementById('task-priority');
 
-    // STATE VARIABLE
-    // We use this to know if we are "Adding" or "Editing"
+    // Track which task we're editing (null means we're adding a new one)
     let currentEditTaskId = null; 
 
-    // --- 3. HELPER FUNCTIONS (View Switching) ---
-
+    // Switch to dashboard view
     function showDashboard() {
         taskInputSection.style.display = 'none';
         dashboardSection.style.display = 'block';
-        fetchTasks(); // Always refresh list when showing dashboard
+        fetchTasks();
     }
 
+    // Switch to add/edit form
     function showInputSection(isEditMode = false) {
         dashboardSection.style.display = 'none';
         taskInputSection.style.display = 'block';
@@ -55,16 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
             taskInputHeader.textContent = "Edit Task";
         } else {
             taskInputHeader.textContent = "New Task";
-            taskInputForm.reset(); // Clear form for new entry
-            currentEditTaskId = null; // Reset edit ID
+            taskInputForm.reset();
+            currentEditTaskId = null;
         }
     }
 
-    // --- 4. FETCH AND RENDER TASKS ---
-
+    // Get all tasks from the server and display them
     async function fetchTasks() {
         try {
-            // We must send the token to the backend to prove who we are
             const response = await fetch(`${API_URL}`, {
                 method: 'GET',
                 headers: {
@@ -74,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const tasks = await response.json();
             
-            // Clear current list
             taskList.innerHTML = '';
 
             if (tasks.length === 0) {
@@ -82,13 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Loop through tasks and create HTML cards
+            // Create a card for each task
             tasks.forEach(task => {
                 const card = document.createElement('div');
-                card.id = 'task-card'; // Note: In real apps, prefer classes for multiples
-                card.className = 'card-style'; // Add CSS class for styling
+                card.id = 'task-card';
+                card.className = 'card-style';
 
-                // Format the date to look nice
                 const dateObj = new Date(task.dueDate);
                 const dateString = dateObj.toLocaleDateString();
 
@@ -109,15 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
 
-                // --- ATTACH EVENT LISTENERS TO BUTTONS ---
-                
-                // DELETE Button
+                // Wire up the buttons
                 card.querySelector('.delete-btn').addEventListener('click', () => deleteTask(task._id));
-
-                // COMPLETE Button
                 card.querySelector('.complete-btn').addEventListener('click', () => completeTask(task, card));
-
-                // EDIT Button
                 card.querySelector('.edit-btn').addEventListener('click', () => {
                     prepareEdit(task);
                 });
@@ -130,25 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. CORE ACTIONS (Add, Edit, Delete, Complete) ---
-
-    // HANDLE FORM SUBMIT (Create OR Update)
+    // Handle form submission (works for both adding and editing)
     taskInputForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const taskData = {
-            title: inputTitle.value,
-            description: inputDesc.value,
+            title: inputTitle.value.trim(),
+            description: inputDesc.value.trim(),
             dueDate: inputDate.value,
-            priority: inputPriority.value.toLowerCase(),
-            status: 'pending' // Default
+            priority: inputPriority.value.toLowerCase(), // convert to lowercase to match schema
+            status: 'pending'
         };
 
         try {
             let url = `${API_URL}`;
             let method = 'POST';
 
-            // If we are editing, change URL and Method
+            // If editing, use PUT instead of POST
             if (currentEditTaskId) {
                 url = `${API_URL}/${currentEditTaskId}`;
                 method = 'PUT';
@@ -164,17 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                showDashboard(); // Go back to list
+                showDashboard();
             } else {
-                alert('Error saving task');
+                const error = await response.json();
+                console.error('Server error:', error);
+                alert('Error saving task: ' + (error.message || 'Unknown error'));
             }
 
         } catch (error) {
             console.error('Error:', error);
+            alert('Failed to save task. Check console for details.');
         }
     });
 
-    // DELETE TASK
+    // Delete a task
     async function deleteTask(id) {
         if(!confirm('Are you sure?')) return;
 
@@ -183,13 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            fetchTasks(); // Refresh list
+            fetchTasks();
         } catch (error) {
             console.error('Error deleting:', error);
         }
     }
 
-    // COMPLETE TASK
+    // Mark task as completed
     async function completeTask(task, cardElement) {
         try {
             const response = await fetch(`${API_URL}/${task._id}/complete`, {
@@ -201,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if(response.ok) {
-                // Update UI instantly without reloading
+                // Update the UI without refreshing
                 const statusBadge = cardElement.querySelector('#status-badge');
                 const title = cardElement.querySelector('.task-title');
                 
@@ -215,38 +198,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // PREPARE EDIT SCREEN
+    // Load task data into the form for editing
     function prepareEdit(task) {
-        currentEditTaskId = task._id; // Remember which ID we are editing
+        currentEditTaskId = task._id;
         
-        // Fill the form with existing data
         inputTitle.value = task.title;
         inputDesc.value = task.description;
         inputPriority.value = task.priority;
         
-        // Date handling (extract YYYY-MM-DD for input field)
+        // Format date for the input field
         if(task.dueDate) {
             inputDate.value = new Date(task.dueDate).toISOString().split('T')[0];
         }
 
-        showInputSection(true); // Switch view, passing 'true' for Edit Mode
+        showInputSection(true);
     }
 
-    // --- 6. NAVIGATION LISTENERS ---
-
-    // Click "Add New Task" link
+    // Navigation handlers
     showTaskInputLink.addEventListener('click', (e) => {
         e.preventDefault();
-        showInputSection(false); // Pass 'false' for New Mode
+        showInputSection(false);
     });
 
-    // Click Logout
     logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('token'); // Destroy the key
-        window.location.href = 'index.html'; // Go home
+        localStorage.removeItem('token');
+        window.location.href = 'index.html';
     });
 
-    // --- INITIAL LOAD ---
     // Start by showing the dashboard
     showDashboard();
 });
