@@ -139,7 +139,7 @@ h1 {
   gap: 1.5rem;
 }
 
-.dashboard-section h2, .dashboard-section footer p {
+.dashboard-section #header, .dashboard-section footer p {
   text-align: center;
 }
 
